@@ -1,0 +1,34 @@
+{
+  "name": "dott",
+  "version": "1.4.0",
+  "description": "Access properties of nested objects using dot-path notation",
+  "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
+  "license": "ISC",
+  "main": "lib/index",
+  "types": "lib/index",
+  "keywords": [
+    "object",
+    "access",
+    "dot",
+    "path"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "ava"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "ava": "^1.4.1",
+    "matrixec": "^1.1.0",
+    "typescript": "^3.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guillaumejchauveau/dott.git"
+  },
+  "bugs": {
+    "url": "https://github.com/guillaumejchauveau/dott/issues"
+  },
+  "homepage": "https://github.com/guillaumejchauveau/dott"
+}
