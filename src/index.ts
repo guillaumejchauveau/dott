@@ -12,8 +12,10 @@ import UndefinedPropertyError from './UndefinedPropertyError'
  */
 export interface Data {
   [key: string]: any,
+
   [index: number]: any
 }
+
 /**
  * User-provided options.
  * @interface
@@ -21,7 +23,7 @@ export interface Data {
  * @property {boolean} enableSpecialParts Determines if registered special parts must processed.
  * @property {object} specialParts An object mapping the corresponding value for a special part.
  * @property {Array<Function>} exclude List of constructors whose instances will be excluded.
- * @property {boolean} force Determines if operations must overide existing data.
+ * @property {boolean} force Determines if operations must override existing data.
  * @property {Path.Formats} pathFormat The format for any paths returned.
  * @property {Path.Types} pathType The type of paths to process.
  */
@@ -36,6 +38,7 @@ export interface PartialOptions {
   pathFormat?: Path.Formats,
   pathType?: Path.Types
 }
+
 /**
  * Full options.
  * @interface
@@ -60,7 +63,7 @@ namespace Helper {
    * @param {PartialOptions} opts
    * @returns {boolean}
    */
-  export function isInstanceExcluded(
+  export function isInstanceExcluded (
     value: any,
     opts: PartialOptions
   ): boolean {
@@ -85,6 +88,7 @@ export namespace Path {
    * @typedef {Key|RegExp} Part
    */
   export type Part = Key | RegExp
+
   /**
    * Available formats for a path.
    * @see Path
@@ -93,6 +97,7 @@ export namespace Path {
     String,
     Array
   }
+
   /**
    * Available types of paths. Leaf paths are paths with no children.
    */
@@ -109,7 +114,7 @@ export namespace Path {
    * @throws {TypeError} A part is not compatible with the selected format.
    * @see Options
    */
-  export function format(
+  export function format (
     path: Path,
     opts?: PartialOptions
   ): Path {
@@ -130,7 +135,7 @@ export namespace Path {
           ) {
             return options.specialParts[part]
           }
-        // RegExp parts cannot be formatted with the string format.
+          // RegExp parts cannot be formatted with the string format.
         } else if (
           options.pathFormat === Formats.String && part instanceof RegExp
         ) {
@@ -148,7 +153,7 @@ export namespace Path {
   }
 
   /**
-   * Returns the keys corresponding to part for an object. Usefull to resolve
+   * Returns the keys corresponding to part for an object. Useful to resolve
    * RegExp parts.
    * @param {Data} object
    * @param {Part} part
@@ -156,7 +161,7 @@ export namespace Path {
    * @returns {Array<Key>} The list of keys.
    * @see Options
    */
-  export function partMatchingKeys(
+  export function partMatchingKeys (
     object: Data,
     part: Part,
     opts?: PartialOptions
@@ -206,7 +211,7 @@ export namespace Path {
    * @returns {boolean} The result of the test
    * @see Options
    */
-  export function arePathsRelated(
+  export function arePathsRelated (
     path1: Path,
     path2: Path,
     opts?: PartialOptions
@@ -227,7 +232,7 @@ export namespace Path {
     const fPath2 = <Path.Part[]>Path.format(path2, internalOptions)
 
     const minLength = Math.min(fPath1.length, fPath2.length)
-    for (let i=0; i < minLength; i++) {
+    for (let i = 0; i < minLength; i++) {
       if (fPath1[i] instanceof RegExp || fPath2[i] instanceof RegExp) {
         throw new Error('Cannot check relation with RegExp parts')
       }
@@ -238,6 +243,23 @@ export namespace Path {
     }
 
     return true
+  }
+
+  export function isPathContainingRegExp (path: Path, opts?: PartialOptions): boolean {
+    const options = Object.assign({}, OPTIONS, opts)
+    /**
+     * @description Duplicates the options and update them for internal computation.
+     * @implements {Options}
+     */
+    const internalOptions = Object.assign(
+      {},
+      options,
+      {
+        pathFormat: Path.Formats.Array
+      }
+    )
+    const fPath = <Path.Part[]>Path.format(path, internalOptions)
+    return fPath.some(value => value instanceof RegExp)
   }
 }
 
@@ -267,7 +289,7 @@ const OPTIONS: Options = {
  * @returns {object} The computed variables.
  * @see Options
  */
-function init(
+function init (
   object: Data,
   path: Path,
   opts?: PartialOptions
@@ -322,7 +344,7 @@ function init(
  * @returns {boolean}
  * @see Options
  */
-export function exists(
+export function exists (
   object: Data,
   path: Path,
   opts?: PartialOptions
@@ -364,7 +386,7 @@ export function exists(
  * @throws {UndefinedPropertyError} No values were found.
  * @see Options
  */
-export function get(
+export function get (
   object: Data,
   path: Path,
   opts?: PartialOptions,
@@ -423,10 +445,10 @@ export function get(
  * @param {*} value The value to place.
  * @param {PartialOptions} opts
  * @throws {TypeError} The given part cannot be used to create an undefined property.
- * @throws {UndefinedPropertyError} The given object cannot have additionnal properties.
+ * @throws {UndefinedPropertyError} The given object cannot have additional properties.
  * @see Options
  */
-export function put(
+export function put (
   object: Data,
   path: Path,
   value: any,
@@ -491,7 +513,7 @@ export function put(
  * @throws {UndefinedPropertyError} The path doesn't lead to any deletable properties.
  * @see Options
  */
-export function remove(object: Data, path: Path, opts?: PartialOptions) {
+export function remove (object: Data, path: Path, opts?: PartialOptions) {
   const {
     options,
     internalOptions,
@@ -535,7 +557,7 @@ export function remove(object: Data, path: Path, opts?: PartialOptions) {
  * @returns {Array<Path>}
  * @see Options
  */
-export function paths(object: Data, opts?: PartialOptions): Path[] {
+export function paths (object: Data, opts?: PartialOptions): Path[] {
   /**
    * @description Merges the provided options with the default options.
    * @implements {Options}
@@ -595,7 +617,7 @@ export default class DotT {
    * @param {PartialOptions} opts
    * @see Options
    */
-  constructor(object?: Data, opts?: PartialOptions) {
+  constructor (object?: Data, opts?: PartialOptions) {
     // Merges the provided options with the default options.
     this.options = Object.assign({}, OPTIONS, opts)
     this.object = object || new Object()
@@ -604,21 +626,21 @@ export default class DotT {
   /**
    * Access the object.
    */
-  get value() {
+  get value () {
     return this.object
   }
 
   /**
    * @see exists
    */
-  exists(path: Path): boolean {
+  exists (path: Path): boolean {
     return exists(this.object, path)
   }
 
   /**
    * @see get
    */
-  get(path: Path, defaultVal?: any): any {
+  get (path: Path, defaultVal?: any): any {
     return get(this.object, path, this.options, defaultVal)
   }
 
@@ -626,7 +648,7 @@ export default class DotT {
    * @returns {DotT} Self
    * @see put
    */
-  put(path: Path, value: any): DotT {
+  put (path: Path, value: any): DotT {
     put(this.object, path, value, this.options)
     return this
   }
@@ -635,7 +657,7 @@ export default class DotT {
    * @returns {DotT} Self
    * @see remove
    */
-  remove(path: Path): DotT {
+  remove (path: Path): DotT {
     remove(this.object, path, this.options)
     return this
   }
@@ -643,7 +665,7 @@ export default class DotT {
   /**
    * @see paths
    */
-  paths(): Path[] {
+  paths (): Path[] {
     return paths(this.object, this.options)
   }
 }

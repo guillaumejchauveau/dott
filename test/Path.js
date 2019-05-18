@@ -36,7 +36,7 @@ test('should match keys', t => {
   ), ['a'])
   t.deepEqual(DotT.Path.partMatchingKeys(
     data.data1,
-    /^(a|b)$/,
+    /^[ab]$/,
     opts
   ), ['a', 'b'])
   t.deepEqual(DotT.Path.partMatchingKeys(
@@ -46,7 +46,7 @@ test('should match keys', t => {
   ), [])
   t.deepEqual(DotT.Path.partMatchingKeys(
     data.data1.c.ca.caa,
-    /^caa(a|b)$/,
+    /^caa[ab]$/,
     {
       exclude: [classes.B],
       pathFormat: DotT.Path.Formats.Array
@@ -54,7 +54,7 @@ test('should match keys', t => {
   ), ['caaa', 'caab'])
   t.deepEqual(DotT.Path.partMatchingKeys(
     data.data1,
-    /^(a|d)$/,
+    /^[ad]$/,
     opts
   ), ['a'])
   t.deepEqual(DotT.Path.partMatchingKeys(
@@ -88,4 +88,21 @@ test('should relate paths', t => {
   t.throws(function() {
     DotT.Path.arePathsRelated('foo.bar', ['foo', new RegExp('bar')])
   }, Error)
+  t.throws(function() {
+    DotT.Path.arePathsRelated('foo.*.a', 'foo.*.b', {
+      enableSpecialParts: true
+    })
+  }, Error)
+})
+
+test('should detect RegExp parts', t => {
+  /**
+   * @implements {DotT.PartialOptions}
+   */
+  const opts = {
+    enableSpecialParts: true
+  }
+  t.false(DotT.Path.isPathContainingRegExp('foo.bar', opts))
+  t.true(DotT.Path.isPathContainingRegExp('foo.*', opts))
+  t.true(DotT.Path.isPathContainingRegExp('foo.*.a.*.c', opts))
 })
