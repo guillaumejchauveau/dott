@@ -101,6 +101,10 @@ test('should relate paths', t => {
     enableSpecialParts: true,
     force: true
   }))
+  t.true(DotT.Path.arePathsRelated(['foo', new RegExp('a'), 'bar'], ['foo', '*', 'bar'], {
+    enableSpecialParts: true,
+    force: true
+  }))
 })
 
 test('should detect RegExp parts', t => {

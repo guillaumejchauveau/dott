@@ -233,8 +233,11 @@ export namespace Path {
     const minLength = Math.min(fPath1.length, fPath2.length)
     for (let i = 0; i < minLength; i++) {
       if (fPath1[i] instanceof RegExp) {
-        if (fPath2[i] instanceof RegExp && !internalOptions.force) {
-          throw new Error('Cannot check relation with RegExp parts')
+        if (fPath2[i] instanceof RegExp) {
+          if (!internalOptions.force) {
+            throw new Error('Cannot check relation with RegExp parts')
+          }
+          continue
         }
         if (!(<RegExp>fPath1[i]).test(fPath2[i].toString())) {
           return false
