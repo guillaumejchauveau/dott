@@ -87,12 +87,20 @@ test('should relate paths', t => {
   t.true(DotT.Path.arePathsRelated('foo.bar', 'foo.bar'))
   t.true(DotT.Path.arePathsRelated('foo.bar', ['foo', new RegExp('bar')]))
   t.true(DotT.Path.arePathsRelated(['foo', new RegExp('bar')], 'foo.bar'))
-  t.true(DotT.Path.arePathsRelated(['foo', new RegExp('.*'), 'rab'], 'foo.hello.rab'))
-  t.throws(function() {
+  t.true(DotT.Path.arePathsRelated(['foo', new RegExp('.*'), 'baz'], 'foo.hello.baz'))
+  t.throws(function () {
     DotT.Path.arePathsRelated('foo.*.a', 'foo.*.b', {
       enableSpecialParts: true
     })
   }, Error)
+  t.false(DotT.Path.arePathsRelated('foo.*.a', 'foo.*.b', {
+    enableSpecialParts: true,
+    force: true
+  }))
+  t.true(DotT.Path.arePathsRelated('foo.*.a', 'foo.*.a', {
+    enableSpecialParts: true,
+    force: true
+  }))
 })
 
 test('should detect RegExp parts', t => {
