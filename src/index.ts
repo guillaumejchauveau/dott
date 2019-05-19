@@ -141,7 +141,6 @@ export namespace Path {
         ) {
           throw new TypeError('Provided path cannot be formatted as a string')
         }
-
         return part
       })
 
@@ -233,15 +232,26 @@ export namespace Path {
 
     const minLength = Math.min(fPath1.length, fPath2.length)
     for (let i = 0; i < minLength; i++) {
-      if (fPath1[i] instanceof RegExp || fPath2[i] instanceof RegExp) {
-        throw new Error('Cannot check relation with RegExp parts')
+      if (fPath1[i] instanceof RegExp) {
+        if (fPath2[i] instanceof RegExp) {
+          throw new Error('Cannot check relation with RegExp parts')
+        }
+        if (!(<RegExp>fPath1[i]).test(fPath2[i].toString())) {
+          return false
+        }
+        continue
       }
-
+      if (fPath2[i] instanceof RegExp) {
+        // fPath1[i] cannot be a RegExp.
+        if (!(<RegExp>fPath2[i]).test(fPath1[i].toString())) {
+          return false
+        }
+        continue
+      }
       if (fPath1[i] !== fPath2[i]) {
         return false
       }
     }
-
     return true
   }
 
