@@ -104,15 +104,15 @@ test('get', t => {
 
 test('put', t => {
   t.notThrows(function () {
-    DotT.put(data.data2, 'd', 'd', {force: true})
+    DotT.put(data.data2, 'd', 'd', { force: true })
     t.is(data.data2.d, 'd')
-    DotT.put(data.data2, 'e.ea.eaa', 'e', {force: true})
+    DotT.put(data.data2, 'e.ea.eaa', 'e', { force: true })
     t.is(data.data2.e.ea.eaa, 'e')
     DotT.put(data.data2, 'c.ca.caa.caaa', 'caaa is excluded', {
       exclude: [classes.A]
     })
     t.is(data.data2.c.ca.caa.caaa, 'caaa is excluded')
-    DotT.put(data.data2, 'a.*', 42, {enableSpecialParts: true})
+    DotT.put(data.data2, 'a.*', 42, { enableSpecialParts: true })
     t.is(data.data2.a.aa, 42)
     t.is(data.data2.a.ab, 42)
     t.is(data.data2.a.ac, 42)
@@ -136,7 +136,7 @@ test('remove', t => {
   t.notThrows(function () {
     DotT.remove(data.data2, 'a.aa')
     t.is(data.data2.a.aa, undefined)
-    DotT.remove(data.data2, 'g.*', {enableSpecialParts: true})
+    DotT.remove(data.data2, 'g.*', { enableSpecialParts: true })
     t.is(data.data2.g.ga, undefined)
     t.is(data.data2.g.gb, undefined)
     t.is(data.data2.g.gc, undefined)
