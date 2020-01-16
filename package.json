@@ -1,6 +1,6 @@
 {
   "name": "dott",
-  "version": "1.5.0-beta.4",
+  "version": "1.5.0-beta.5",
   "description": "Access properties of nested objects using dot-path notation",
   "author": "Guillaume Chauveau <guillaumejchauveau.ops.gecu@outlook.com>",
   "license": "MIT",
@@ -18,10 +18,10 @@
     "test": "ava test/*.js"
   },
   "devDependencies": {
-    "@types/node": "^12.7.1",
-    "ava": "^2.2.0",
-    "matrixec": "^1.2.0",
-    "typescript": "^3.5.3"
+    "@types/node": "^13.1.7",
+    "ava": "^2.4.0",
+    "matrixec": "^1.2.1",
+    "typescript": "^3.7.4"
   },
   "repository": {
     "type": "git",
